@@ -7,6 +7,7 @@
 #' @param mat The expression matrix
 #' @return A numeric vector with the samples as names and the normalizer 
 #'   as values
+#' @export
 #' @examples
 #' normalizer <- get_normalizer(mat)
 get_normalizer <- function(mat) {
