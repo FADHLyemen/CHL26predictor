@@ -1,2 +1,2 @@
-moef.coef.df <- read.table("data-raw/model-coef.tsv")
-devtools::use_data(moef.coef.df, overwrite = TRUE)
+model.coef.df <- read.table("data-raw/model-coef.tsv", header = TRUE)
+devtools::use_data(model.coef.df, overwrite = TRUE)
