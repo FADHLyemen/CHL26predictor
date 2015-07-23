@@ -1,0 +1,11 @@
+Package: CHL26predictor
+Title: An R package for the CHL 26 Gene Predictor
+Version: 0.0.0.9000
+Authors@R: person("Fong Chun", "Chan", , "fongchunchan@gmail.com", role = c("aut", "cre"))
+Description: This is a companion R package for the CHL 26 gene predictor that 
+  has been published in the Journal of Clinical Oncology. It provides 
+	functions normalize and generate scores as per the model reported in the 
+	paper
+Depends: R (>= 3.1.2)
+License: MIT
+LazyData: true
