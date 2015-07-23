@@ -13,16 +13,25 @@
 #' get_CHL26_scores(mat.norm)
 get_CHL26_scores <- function(mat.norm) {
 
-  if (!all(CHL26.model.coef.df$geneName %in% rownames(mat))) {
-    missing.gene <- !CHL26.model.coef.df$geneName %in% rownames(mat)
-    stop(paste("Following genes missing from gene expression matrix:", 
-               paste(CHL26.model.coef.df[missing.gene, "geneName"], collapse = ", ")
-               )
+  CHL26.model.coef.predictor.df <- 
+    CHL26.model.coef.df[CHL26.model.coef.df$feature == "predictor", ]
+
+  if (!all(CHL26.model.coef.predictor.df$geneName %in% rownames(mat))) {
+    missing.gene <- !CHL26.model.coef.predictor.df$geneName %in% rownames(mat)
+    stop(
+      paste("Following genes missing from gene expression matrix:", 
+        paste(CHL26.model.coef.predictor.df[missing.gene, "geneName"], 
+              collapse = ", ")
+        )
     )
   }
 
-  model.coef <- matrix(CHL26.model.coef.df$coef, 1, nrow(CHL26.model.coef.df),
-                       dimnames = list(NULL, CHL26.model.coef.df$geneName))
+  model.coef <- matrix(CHL26.model.coef.predictor.df$coef, 
+                       1, nrow(CHL26.model.coef.predictor.df),
+                       dimnames = list(NULL, 
+                                       CHL26.model.coef.predictor.df$geneName)
+                       )
+
   scores <- model.coef %*% mat.norm[colnames(model.coef), ]
   scores.vector <- scores[1, ]
   scores.vector
