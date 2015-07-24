@@ -18,6 +18,8 @@ vignette: >
 library("knitr")
 library("CHL26predictor")
 library("dplyr")
+library("ggplot2")
+library("reshape2")
 ```
 
 This vignette gives a high level overview on how to use the CHL26predictor R package to generate CHL26 scores. The model consists of 26 genes (3 housekeepers and 23 predictor genes/features)
@@ -29,4 +31,51 @@ kable(CHL26.model.coef.df, caption = "Overview of the Features in Model")
 # Generating CHL26 Scores
 ***
 
-To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. 
+To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. We'll first need to normalize the gene expression matrix:
+
+```{r normalizer, message = FALSE, fig.width = 7, fig.cap = "Normalizer Values"}
+normalizer <- get_normalizer(CHL26.test.exprs.mat)
+CHL26.test.exprs.norm.mat <- normalize_mat(CHL26.test.exprs.mat, normalizer)
+
+normalizer %>%
+  melt(value.name = "normalizer") %>%
+  mutate(sampleID = rownames(.)) %>%
+  arrange(normalizer) %>%
+  ggplot(aes(x = factor(sampleID, levels = sampleID), y = normalizer)) +
+  geom_bar(stat = "identity") +
+  xlab("Sample ID") +
+  ylab("Normalizer")
+```
+
+Now that the gene expression matrix is normalized, we can generate the CHL26 scores:
+
+```{r CHL26_score, message = FALSE, fig.width = 7, fig.cap = "Distribution of CHL26 Scores"}
+scores.df <- get_CHL26_scores(CHL26.test.exprs.norm.mat)
+scores.df <- arrange(scores.df, score)
+
+scores.df %>%
+  ggplot(aes(x = factor(sampleID, levels = sampleID), y = score)) +
+  geom_bar(stat = "identity") +
+  xlab("Sample ID") +
+  ylab("CHL26 Score")
+
+```
+
+# Classifying Samples into High and Low Risk
+***
+
+With the CHL26 scores, we can next classify samples into high and low risk by using the published threshold of 0.6235.
+
+```{r CHL26_score_risk, fig.width = 7, fig.cap = "Risk Class of CHL26 Score"}
+risk.thres <- 0.6235
+scores.risk.df <- scores.df %>%
+  mutate(riskClass = ifelse(score >= risk.thres, "High", "Low"))
+
+scores.risk.df %>%
+  ggplot(aes(x = factor(sampleID, levels = sampleID), y = score, 
+             fill = riskClass)) +
+  geom_bar(stat = "identity") +
+  xlab("Sample ID") +
+  ylab("CHL26 Score") +
+  geom_hline(y = risk.thres, col = "red", linetype = "dotted")
+```
