@@ -8,3 +8,5 @@ To install this package, use devtools:
 ```{r}
 devtools::install_github("tinyheero/CHL26predictor")
 ```
+
+An [introduction vignette](http://htmlpreview.github.io/?https://github.com/tinyheero/CHL26predictor/blob/master/vignettes/introduction.html) has been written to describe how to use the R package.
