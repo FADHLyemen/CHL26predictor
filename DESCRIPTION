@@ -9,3 +9,5 @@ Description: This is a companion R package for the CHL 26 gene predictor that
 Depends: R (>= 3.1.2)
 License: MIT
 LazyData: true
+Suggests: knitr
+VignetteBuilder: knitr

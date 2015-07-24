@@ -1,0 +1,32 @@
+---
+title: "Introduction to the CHL26predictor R Package"
+author: "Fong Chun Chan"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introduction
+***
+
+```{r, message = FALSE}
+library("knitr")
+library("CHL26predictor")
+library("dplyr")
+```
+
+This vignette gives a high level overview on how to use the CHL26predictor R package to generate CHL26 scores. The model consists of 26 genes (3 housekeepers and 23 predictor genes/features)
+
+```{r}
+kable(CHL26.model.coef.df, caption = "Overview of the Features in Model")
+```
+
+# Generating CHL26 Scores
+***
+
+To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. 
