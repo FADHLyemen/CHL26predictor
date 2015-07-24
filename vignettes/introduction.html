@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Fong Chun Chan" />
+
+<meta name="date" content="2015-07-24" />
+
+<title>Introduction to the CHL26predictor R Package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Introduction to the CHL26predictor R Package</h1>
+<h4 class="author"><em>Fong Chun Chan</em></h4>
+<h4 class="date"><em>2015-07-24</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#generating-chl26-scores">Generating CHL26 Scores</a></li>
+<li><a href="#classifying-samples-into-high-and-low-risk">Classifying Samples into High and Low Risk</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<hr />
+<p>This vignette gives a high level overview on how to use the CHL26predictor R package to generate CHL26 scores. The model consists of 26 genes (3 housekeepers and 23 predictor genes/features)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;knitr&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;CHL26predictor&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;reshape2&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(CHL26.model.coef.df, <span class="dt">caption =</span> <span class="st">&quot;Overview of the Features in Model&quot;</span>)</code></pre>
+<table>
+<caption>Overview of the Features in Model</caption>
+<thead>
+<tr class="header">
+<th align="left">geneName</th>
+<th align="right">coef</th>
+<th align="left">feature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GLUL</td>
+<td align="right">0.0026350</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">RNF144B</td>
+<td align="right">0.0047080</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">CD68</td>
+<td align="right">0.0038710</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">IL15RA</td>
+<td align="right">0.0010050</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">LMO2</td>
+<td align="right">0.0062050</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">CD300A</td>
+<td align="right">0.0051410</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">RAPGEF2</td>
+<td align="right">0.0058400</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">TNFSF10</td>
+<td align="right">0.0109300</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">ALDH1A1</td>
+<td align="right">0.0049460</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">B2M</td>
+<td align="right">0.0040520</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">HLA_C</td>
+<td align="right">0.0066190</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">HLA_A</td>
+<td align="right">0.0053340</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">WDR83</td>
+<td align="right">0.0014220</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">STAT1</td>
+<td align="right">0.0030700</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">CXCL11</td>
+<td align="right">0.0041440</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">IRF1</td>
+<td align="right">0.0050560</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">IFNG</td>
+<td align="right">0.0040560</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">PRF1</td>
+<td align="right">0.0029210</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">APOL6</td>
+<td align="right">0.0070910</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">LYZ</td>
+<td align="right">0.0039840</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">COL6A1</td>
+<td align="right">-0.0011120</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">PDGFRA</td>
+<td align="right">-0.0002513</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="odd">
+<td align="left">CCL17</td>
+<td align="right">-0.0000867</td>
+<td align="left">predictor</td>
+</tr>
+<tr class="even">
+<td align="left">ACTB</td>
+<td align="right">NA</td>
+<td align="left">housekeeper</td>
+</tr>
+<tr class="odd">
+<td align="left">CLTC</td>
+<td align="right">NA</td>
+<td align="left">housekeeper</td>
+</tr>
+<tr class="even">
+<td align="left">RPLP0</td>
+<td align="right">NA</td>
+<td align="left">housekeeper</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="generating-chl26-scores" class="section level1">
+<h1>Generating CHL26 Scores</h1>
+<hr />
+<p>To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. The R package provides a small test expression matrix to use with this vignette:</p>
+<pre class="sourceCode r"><code class="sourceCode r">CHL26.test.exprs.mat</code></pre>
+<pre><code>##         sampleA sampleB sampleC sampleD sampleE sampleF sampleG sampleH
+## ACTB      20043   24297   32793   46534   17223   46252   47900   36117
+## ALDH1A1      55     630    1370     588     824      43    1294     538
+## APOL6       505     534     109     292     591     508     273     398
+## B2M      124898  167486  156512   79282  103635  169698  173607   36345
+## CCL17     19014   48091   38429   53880   25438   64164   56220   54884
+## CD300A      119     198      98     179     212     123      41      38
+## CD68       1717    7857    9268    8252    8367    8317    5122    5498
+## CLTC        232     746    1326     356    1061    1347    1356     737
+## COL6A1     3416    8097    6696    8504    7045    2317    3209    3868
+## CXCL11      304    1307    1013     194     392     448    1704    1177
+## GLUL      10361    2806    8569   23222   23105    4704   17155    9964
+## HLA_A     19219    7580   25584   27863   17190   11088    8039   20335
+## HLA_C     13563    6200    7416    7188    6552    7747   14384    8585
+## IFNG        422     466     418     489     301     275     550     363
+## IL15RA      389     850    1524     705     253     649     837    1262
+## IRF1       3596    3232    2620    3330    2866     636    1864    2718
+## LMO2        461     434     233     428     363     217     492     534
+## LYZ       35413   38441    8626   35570    4030   22654    8376   28424
+## PDGFRA     1602     922     395     808    1800    1555    1290     821
+## PRF1       1048     749     665    1154     713     916     525    1392
+## RAPGEF2      31     237     292     268      44     275     155     317
+## RNF144B    1012     435     183     226     401     476     454    1045
+## RPLP0     42820  149043   42825   80690  108693   30608   32604   37570
+## STAT1      7030    2905    7592    4231    6816    7194    4969    6527
+## TNFSF10    1750    3094     921    1834    3566    1033    4642    2042
+## WDR83        99     129     116      48      58      86     141     130
+##         sampleI sampleJ
+## ACTB      34456   11650
+## ALDH1A1      54     992
+## APOL6       370     572
+## B2M       79436  106120
+## CCL17     41212   23990
+## CD300A       63     156
+## CD68       4852    9698
+## CLTC       1075    1025
+## COL6A1     3982    5350
+## CXCL11       72     683
+## GLUL      19009    8830
+## HLA_A     12464   19742
+## HLA_C      6668    7838
+## IFNG        505     293
+## IL15RA      981     284
+## IRF1       1090    1301
+## LMO2        212     217
+## LYZ       36125   42385
+## PDGFRA     1572     629
+## PRF1        800    1367
+## RAPGEF2     178     289
+## RNF144B     814     476
+## RPLP0     24626   52189
+## STAT1      1218    6152
+## TNFSF10    4612    1640
+## WDR83        79      65</code></pre>
+<p>These expression values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution. We’ll first need to normalize the gene expression matrix:</p>
+<pre class="sourceCode r"><code class="sourceCode r">normalizer &lt;-<span class="st"> </span><span class="kw">get_normalizer</span>(CHL26.test.exprs.mat)
+CHL26.test.exprs.norm.mat &lt;-<span class="st"> </span><span class="kw">normalize_mat</span>(CHL26.test.exprs.mat, normalizer)
+
+normalizer %&gt;%
+<span class="st">  </span><span class="kw">melt</span>(<span class="dt">value.name =</span> <span class="st">&quot;normalizer&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sampleID =</span> <span class="kw">rownames</span>(.)) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(normalizer) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(sampleID, <span class="dt">levels =</span> sampleID), <span class="dt">y =</span> normalizer)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sample ID&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Normalizer&quot;</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>))</code></pre>
+<p><img src="data:image/png;base64,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" alt="Normalizer Values" /></p>
+<p>Now that the gene expression matrix is normalized, we can generate the CHL26 scores:</p>
+<pre class="sourceCode r"><code class="sourceCode r">scores.df &lt;-<span class="st"> </span><span class="kw">get_CHL26_scores</span>(CHL26.test.exprs.norm.mat)
+scores.df &lt;-<span class="st"> </span><span class="kw">arrange</span>(scores.df, score)
+
+scores.df %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(sampleID, <span class="dt">levels =</span> sampleID), <span class="dt">y =</span> score)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sample ID&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;CHL26 Score&quot;</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>))</code></pre>
+<p><img src="data:image/png;base64,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" alt="Distribution of CHL26 Scores" /></p>
+</div>
+<div id="classifying-samples-into-high-and-low-risk" class="section level1">
+<h1>Classifying Samples into High and Low Risk</h1>
+<hr />
+<p>With the CHL26 scores, we can next classify samples into high and low risk by using the published threshold of 0.6235.</p>
+<pre class="sourceCode r"><code class="sourceCode r">risk.thres &lt;-<span class="st"> </span><span class="fl">0.6235</span>
+scores.risk.df &lt;-<span class="st"> </span>scores.df %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">riskClass =</span> <span class="kw">ifelse</span>(score &gt;=<span class="st"> </span>risk.thres, <span class="st">&quot;High&quot;</span>, <span class="st">&quot;Low&quot;</span>))
+
+scores.risk.df %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(sampleID, <span class="dt">levels =</span> sampleID), <span class="dt">y =</span> score, 
+             <span class="dt">fill =</span> riskClass)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sample ID&quot;</span>) +
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;CHL26 Score&quot;</span>) +
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> risk.thres, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>))</code></pre>
+<p><img src="data:image/png;base64,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" alt="Risk Class of CHL26 Score" /></p>
+<blockquote>
+<p>As this is synthetic data, the proportion of the high to low-risk class does NOT reflect the true expected proportion.</p>
+</blockquote>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

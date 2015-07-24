@@ -14,6 +14,8 @@ vignette: >
 # Introduction
 ***
 
+This vignette gives a high level overview on how to use the CHL26predictor R package to generate CHL26 scores. The model consists of 26 genes (3 housekeepers and 23 predictor genes/features)
+
 ```{r, message = FALSE}
 library("knitr")
 library("CHL26predictor")
@@ -22,8 +24,6 @@ library("ggplot2")
 library("reshape2")
 ```
 
-This vignette gives a high level overview on how to use the CHL26predictor R package to generate CHL26 scores. The model consists of 26 genes (3 housekeepers and 23 predictor genes/features)
-
 ```{r}
 kable(CHL26.model.coef.df, caption = "Overview of the Features in Model")
 ```
@@ -31,7 +31,13 @@ kable(CHL26.model.coef.df, caption = "Overview of the Features in Model")
 # Generating CHL26 Scores
 ***
 
-To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. We'll first need to normalize the gene expression matrix:
+To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. The R package provides a small test expression matrix to use with this vignette:
+
+```{r}
+CHL26.test.exprs.mat
+```
+
+These expression values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution.  We'll first need to normalize the gene expression matrix:
 
 ```{r normalizer, message = FALSE, fig.width = 7, fig.cap = "Normalizer Values"}
 normalizer <- get_normalizer(CHL26.test.exprs.mat)
@@ -44,7 +50,8 @@ normalizer %>%
   ggplot(aes(x = factor(sampleID, levels = sampleID), y = normalizer)) +
   geom_bar(stat = "identity") +
   xlab("Sample ID") +
-  ylab("Normalizer")
+  ylab("Normalizer") +
+	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
 Now that the gene expression matrix is normalized, we can generate the CHL26 scores:
@@ -57,8 +64,8 @@ scores.df %>%
   ggplot(aes(x = factor(sampleID, levels = sampleID), y = score)) +
   geom_bar(stat = "identity") +
   xlab("Sample ID") +
-  ylab("CHL26 Score")
-
+  ylab("CHL26 Score") +
+	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
 # Classifying Samples into High and Low Risk
@@ -77,5 +84,8 @@ scores.risk.df %>%
   geom_bar(stat = "identity") +
   xlab("Sample ID") +
   ylab("CHL26 Score") +
-  geom_hline(y = risk.thres, col = "red", linetype = "dotted")
+  geom_hline(y = risk.thres, col = "red", linetype = "dotted") +
+	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
+
+> As this is synthetic data, the proportion of the high to low-risk class does NOT reflect the true expected proportion.
