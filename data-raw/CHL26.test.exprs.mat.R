@@ -1,3 +1,4 @@
+set.seed(1)
 num.samples <- 10
 
 exprs.list <- list()
