@@ -65,7 +65,7 @@ scores.df %>%
   geom_bar(stat = "identity") +
   xlab("Sample ID") +
   ylab("CHL26 Score") +
-	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
 # Classifying Samples into High and Low Risk
@@ -85,7 +85,7 @@ scores.risk.df %>%
   xlab("Sample ID") +
   ylab("CHL26 Score") +
   geom_hline(y = risk.thres, col = "red", linetype = "dotted") +
-	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
 > As this is synthetic data, the proportion of the high to low-risk class does NOT reflect the true expected proportion.
