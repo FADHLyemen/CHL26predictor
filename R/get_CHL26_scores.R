@@ -12,6 +12,10 @@
 #' get_CHL26_scores(mat.norm)
 get_CHL26_scores <- function(mat.norm) {
 
+  if (!is.matrix(mat.norm)) {
+    stop("mat.norm is not a matrix. Please make sure mat.norm is matrix")
+  }
+
   CHL26.model.coef.predictor.df <- 
     CHL26.model.coef.df[CHL26.model.coef.df$feature == "predictor", ]
 
