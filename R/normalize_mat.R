@@ -14,6 +14,11 @@ get_normalizer <- function(mat) {
   message("Generating the geometric mean of housekeeper genes")
   genes.norm.factor <- c("ACTB", "CLTC", "RPLP0")
 
+  if (!all(genes.norm.factor %in% rownames(mat))) {
+    missing.ind <- !genes.norm.factor %in% rownames(mat)
+    stop(paste0("Matrix is missing the genes: ", genes.norm.factor[missing.ind]))
+  }
+
   normalizer.log <- log(mat[genes.norm.factor, ])
   normalizer.log.mean <- apply(normalizer.log, 2, mean)
   normalizer.log.mean.exp <- exp(normalizer.log.mean)
