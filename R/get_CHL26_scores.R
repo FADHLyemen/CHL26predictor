@@ -39,6 +39,7 @@ get_CHL26_scores <- function(mat.norm) {
   scores.vector <- scores[1, ]
 
   scores.df <- data.frame(sampleID = names(scores.vector),
-                          score = unname(scores.vector))
+                          score = unname(scores.vector), 
+                          stringsAsFactors = FALSE)
   scores.df
 }
