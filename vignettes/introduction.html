@@ -10,7 +10,7 @@
 
 <meta name="author" content="Fong Chun Chan" />
 
-<meta name="date" content="2015-09-02" />
+<meta name="date" content="2015-10-09" />
 
 <title>Introduction to the CHL26predictor R Package</title>
 
@@ -54,12 +54,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">Introduction to the CHL26predictor R Package</h1>
 <h4 class="author"><em>Fong Chun Chan</em></h4>
-<h4 class="date"><em>2015-09-02</em></h4>
+<h4 class="date"><em>2015-10-09</em></h4>
 </div>
 
 <div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#input-data">Input Data</a><ul>
+<li><a href="#rcc-files-as-input">RCC Files as Input</a></li>
+</ul></li>
 <li><a href="#generating-chl26-scores">Generating CHL26 Scores</a></li>
 <li><a href="#classifying-samples-into-high-and-low-risk">Classifying Samples into High and Low Risk</a></li>
 </ul>
@@ -218,10 +221,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </tbody>
 </table>
 </div>
-<div id="generating-chl26-scores" class="section level1">
-<h1>Generating CHL26 Scores</h1>
+<div id="input-data" class="section level1">
+<h1>Input Data</h1>
 <hr />
-<p>To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. The R package provides a small test expression matrix to use with this vignette:</p>
+<p>To generate the CHL26 scores for the predictor, the R package simply requires the raw nanostring count data in matrix format as input. The R package provides a small test count matrix to use with this vignette:</p>
 <pre class="sourceCode r"><code class="sourceCode r">CHL26.test.exprs.mat</code></pre>
 <pre><code>##         sampleA sampleB sampleC sampleD sampleE sampleF sampleG sampleH
 ## ACTB      20043   24297   32793   46534   17223   46252   47900   36117
@@ -277,7 +280,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
 ## STAT1      1218    6152
 ## TNFSF10    4612    1640
 ## WDR83        79      65</code></pre>
-<p>These expression values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution. We’ll first need to normalize the gene expression matrix:</p>
+<p>These counts values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution.</p>
+<div id="rcc-files-as-input" class="section level2">
+<h2>RCC Files as Input</h2>
+<p>If you have RCC files, then you can use the <code>convert_RCC_to_mat</code> function to extract count data by simplying pointing to the directory containing all the RCC files.</p>
+<pre class="sourceCode r"><code class="sourceCode r">exprs.mat &lt;-<span class="st"> </span><span class="kw">convert_RCC_to_mat</span>(<span class="st">&quot;/path/to/rcc/directory&quot;</span>)</code></pre>
+</div>
+</div>
+<div id="generating-chl26-scores" class="section level1">
+<h1>Generating CHL26 Scores</h1>
+<hr />
+<p>Once you have the count matrix, you’ll need to first normalize the count matrix:</p>
 <pre class="sourceCode r"><code class="sourceCode r">normalizer &lt;-<span class="st"> </span><span class="kw">get_normalizer</span>(CHL26.test.exprs.mat)
 CHL26.test.exprs.norm.mat &lt;-<span class="st"> </span><span class="kw">normalize_mat</span>(CHL26.test.exprs.mat, normalizer)
 
@@ -291,7 +304,7 @@ normalizer %&gt;%
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Normalizer&quot;</span>) +
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>))</code></pre>
 <p><img src="data:image/png;base64,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" alt="Normalizer Values" /></p>
-<p>Now that the gene expression matrix is normalized, we can generate the CHL26 scores:</p>
+<p>Now that the gene count matrix is normalized, we can generate the CHL26 scores:</p>
 <pre class="sourceCode r"><code class="sourceCode r">scores.df &lt;-<span class="st"> </span><span class="kw">get_CHL26_scores</span>(CHL26.test.exprs.norm.mat)
 scores.df &lt;-<span class="st"> </span><span class="kw">arrange</span>(scores.df, score)
 

@@ -28,16 +28,29 @@ library("reshape2")
 kable(CHL26.model.coef.df, caption = "Overview of the Features in Model")
 ```
 
-# Generating CHL26 Scores
+# Input Data
 ***
 
-To generate the CHL26 scores for the predictor, the R package simply requires an expression matrix as input. The R package provides a small test expression matrix to use with this vignette:
+To generate the CHL26 scores for the predictor, the R package simply requires the raw nanostring count data in matrix format as input. The R package provides a small test count matrix to use with this vignette:
 
 ```{r}
 CHL26.test.exprs.mat
 ```
 
-These expression values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution.  We'll first need to normalize the gene expression matrix:
+These counts values have been generated from the sampling of count data from a possion distribution with the lambda values sample a uniform distribution. 
+
+## RCC Files as Input
+
+If you have RCC files, then you can use the `convert_RCC_to_mat` function to extract count data by simplying pointing to the directory containing all the RCC files.
+
+```{r, eval = FALSE}
+exprs.mat <- convert_RCC_to_mat("/path/to/rcc/directory")
+```
+
+# Generating CHL26 Scores
+***
+
+Once you have the count matrix, you'll need to first normalize the count matrix:
 
 ```{r normalizer, message = FALSE, fig.width = 7, fig.cap = "Normalizer Values"}
 normalizer <- get_normalizer(CHL26.test.exprs.mat)
@@ -54,7 +67,7 @@ normalizer %>%
 	theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
-Now that the gene expression matrix is normalized, we can generate the CHL26 scores:
+Now that the gene count matrix is normalized, we can generate the CHL26 scores:
 
 ```{r CHL26_score, message = FALSE, fig.width = 7, fig.cap = "Distribution of CHL26 Scores"}
 scores.df <- get_CHL26_scores(CHL26.test.exprs.norm.mat)
