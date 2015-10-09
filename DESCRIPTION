@@ -6,7 +6,7 @@ Description: This is a companion R package for the CHL 26 gene predictor that
   has been published in the Journal of Clinical Oncology. It provides 
 	functions normalize and generate scores as per the model reported in the 
 	paper
-Depends: R (>= 3.1.2)
+Depends: R (>= 3.1.1)
 License: MIT
 LazyData: true
 Suggests: knitr
