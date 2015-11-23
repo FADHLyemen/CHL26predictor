@@ -2,7 +2,7 @@
 % Please edit documentation in R/convert_RCC_to_mat.R
 \name{convert_RCC_to_mat}
 \alias{convert_RCC_to_mat}
-\title{Convert RCC Files to Matrix}
+\title{Convert Nanostring RCC Files to Matrix Form}
 \usage{
 convert_RCC_to_mat(rcc.dir)
 }

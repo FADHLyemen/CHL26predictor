@@ -2,17 +2,27 @@
 #'
 #' \code{get_normalizer} returns the normalizer values for each sample. The 
 #' normalizer value is based on the geometric mean of the housekeeper genes
-#' ACTB, CLTC, and RPLP0
+#' ACTB, CLTC, and RPLP0.  
+#'
+#' You can change the housekeeper genes by specifying the genes.norm.factor
+#' parameter.
 #'
 #' @param mat The expression matrix
+#' @param genes.norm.factor Character vector containing the housekeeper genes 
+#'   to use to calculate the normalizer
 #' @return A numeric vector with the samples as names and the normalizer 
 #'   as values
 #' @export
 #' @examples
 #' normalizer <- get_normalizer(mat)
-get_normalizer <- function(mat) {
+get_normalizer <- function(mat, 
+                           genes.norm.factor = c("ACTB", "CLTC", "RPLP0")) {
+
   message("Generating the geometric mean of housekeeper genes")
-  genes.norm.factor <- c("ACTB", "CLTC", "RPLP0")
+
+  if (!length(genes.norm.factor) > 1) {
+    stop("Must have more than 1 housekeeper gene")
+  }
 
   if (!all(genes.norm.factor %in% rownames(mat))) {
     missing.ind <- !genes.norm.factor %in% rownames(mat)
