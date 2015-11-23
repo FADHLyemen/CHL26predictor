@@ -36,7 +36,7 @@ ls("package:CHL26predictor")
 
 A quick overview of some of the key functions:
 
-* `convert_RCC_to_mat`: Converts the RCC files in a directory into a matrix. This function requires the `NanoStringNorm` R package.
+* `convert_RCC_to_mat`: Converts the RCC files in a directory into a matrix. 
 * `get_normalizer`: Returns the normalizer values for each sample.
 
 An [introduction vignette](http://htmlpreview.github.io/?https://github.com/tinyheero/CHL26predictor/blob/master/vignettes/introduction.html) has been written to describe how to use the R package.
