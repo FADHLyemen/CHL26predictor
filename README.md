@@ -17,7 +17,7 @@ This package suggests the installation of the `NanoStringNorm` R package for acc
 install.packages("NanoStringNorm")
 ```
 
-Newer versions of NanostringNorm (at least from v1.1.21 onwards), depend on the `vsn` Bioconductor R package. As NanostringNorm is not part of Bioconductor, you will need to install this dependency yourself:
+Newer versions of NanoStringNorm (at least from v1.1.21 onwards), depend on the `vsn` Bioconductor R package. As NanoStringNorm is not part of Bioconductor, you will need to install this dependency yourself:
 
 ```{r}
 ## try http:// if https:// URLs are not supported
