@@ -11,7 +11,9 @@ To install this package, use [devtools](https://cran.r-project.org/web/packages/
 devtools::install_github("tinyheero/CHL26predictor")
 ```
 
-This package suggests the installation of the `NanoStringNorm` R package for access to some additional (but non-essential) functions (e.g. `convert_RCC_to_mat`). You can install `NanoStringNorm` from CRAN using:
+## Suggested Dependencies 
+
+This package suggests the installation of the [NanoStringNorm R package](https://cran.r-project.org/web/packages/NanoStringNorm/index.html) for access to some additional (but non-essential) functions (e.g. `convert_RCC_to_mat`). You can install NanoStringNorm from CRAN using:
 
 ```{r}
 install.packages("NanoStringNorm")
