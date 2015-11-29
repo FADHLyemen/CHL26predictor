@@ -1,6 +1,6 @@
 Package: CHL26predictor
 Title: An R package for the CHL 26 Gene Predictor
-Version: 0.0.0.9004
+Version: 0.0.0.9003
 Authors@R: person("Fong Chun", "Chan", , "fongchunchan@gmail.com", role = c("aut", "cre"))
 Description: This is a companion R package for the CHL 26 gene predictor that 
   has been published in the Journal of Clinical Oncology. It provides 

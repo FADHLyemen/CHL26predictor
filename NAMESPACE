@@ -3,5 +3,4 @@
 export(convert_RCC_to_mat)
 export(get_CHL26_scores)
 export(get_normalizer)
-export(melt_mat)
 export(normalize_mat)
