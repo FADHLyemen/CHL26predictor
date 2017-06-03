@@ -7,15 +7,15 @@ An R Package for the Classical Hodgkin Lymphoma (CHL) 26 Gene Overall Survival P
 
 To install this package, use [devtools](https://cran.r-project.org/web/packages/devtools/index.html):
 
-```{r}
-devtools::install_github("tinyheero/CHL26predictor")
+```r
+devtools::install_github("LCR-BCCRC/CHL26predictor")
 ```
 
 ## Suggested Dependencies 
 
 This package suggests the installation of the [NanoStringNorm R package](https://cran.r-project.org/web/packages/NanoStringNorm/index.html) for access to some additional (but non-essential) functions (e.g. `convert_RCC_to_mat`). You can install NanoStringNorm from CRAN using:
 
-```{r}
+```r
 install.packages("NanoStringNorm")
 ```
 
