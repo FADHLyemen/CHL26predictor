@@ -21,7 +21,7 @@ install.packages("NanoStringNorm")
 
 Newer versions of NanoStringNorm (at least from v1.1.21 onwards), depend on the `vsn` Bioconductor R package. As NanoStringNorm is not part of Bioconductor, you will need to install this dependency yourself:
 
-```{r}
+```r
 ## try http:// if https:// URLs are not supported
 source("https://bioconductor.org/biocLite.R")
 biocLite("vsn")
@@ -31,7 +31,7 @@ biocLite("vsn")
 
 To see the full list of exported functions:
 
-```{r}
+```r
 library("CHL26predictor")
 ls("package:CHL26predictor")
 ```
