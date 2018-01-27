@@ -1,11 +1,20 @@
 # CHL26predictor
+
+[![Anaconda-Server Badge](https://anaconda.org/fongchun/chl26predictor/badges/version.svg)](https://anaconda.org/fongchun/chl26predictor)
+
 An R Package for the Classical Hodgkin Lymphoma (CHL) 26 Gene Overall Survival Predictor. This is the companion R package for the predictor that has been published.
 
 * [Scott, D. W., Chan, F. C., Hong, F., Rogic, S., Tan, K. L., Meissner, B., et al. (2013). Gene expression-based model using formalin-fixed paraffin-embedded biopsies predicts overall survival in advanced-stage classical Hodgkin lymphoma. J Clin Oncol, 31(6), 692–700. doi:10.1200/JCO.2012.43.4589](http://www.ncbi.nlm.nih.gov/pubmed/23182984)
 
 # Installation
 
-To install this package, use [devtools](https://cran.r-project.org/web/packages/devtools/index.html):
+The preferred way to install this package is through conda:
+
+```
+conda install -c fongchun chl26predictor
+```
+
+Alternatively, one can install this package, using [devtools](https://cran.r-project.org/web/packages/devtools/index.html):
 
 ```r
 devtools::install_github("LCR-BCCRC/CHL26predictor")
